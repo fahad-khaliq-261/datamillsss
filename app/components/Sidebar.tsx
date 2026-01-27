@@ -98,16 +98,28 @@ const SubmenuPanel: React.FC<SubmenuPanelProps> = ({ activeMenuData, isVisible }
     >
         {activeMenuData?.submenu && (
             <div className="h-full flex flex-col">
-                {/* Submenu Header */}
-                <div className="h-[72px] px-8 flex items-center border-b border-gray-200">
+                {/* Submenu Header - McKinsey Style */}
+                <div className="h-[80px] px-8 flex items-center border-b border-gray-200">
                     <Link
                         href="#"
-                        className="flex items-center gap-2 text-[#0a192f] hover:text-cyan-600 transition-colors group"
+                        className="group"
                     >
-                        <span className="text-xl font-bold">{activeMenuData.submenu.title}</span>
-                        <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
+                        <div className="flex items-center gap-3">
+                            <span className="text-2xl font-bold text-[#0a192f] group-hover:text-blue-700 transition-colors">
+                                {activeMenuData.submenu.title}
+                            </span>
+                            <svg 
+                                className="w-6 h-6 text-blue-600 transition-transform group-hover:translate-x-1" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                viewBox="0 0 24 24"
+                                strokeWidth={2}
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </div>
+                        {/* Underline accent */}
+                        <div className="mt-1 w-12 h-[3px] bg-blue-600 group-hover:w-full transition-all duration-300" />
                     </Link>
                 </div>
 

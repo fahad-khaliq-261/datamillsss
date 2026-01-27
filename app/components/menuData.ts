@@ -19,33 +19,54 @@ export interface MenuItem {
 // Menu data structure
 export const menuData: MenuItem[] = [
     {
-        id: 'datamills',
-        name: 'Datamills',
+        id: 'industries',
+        name: 'Industries',
         submenu: {
-            title: 'Datamills',
+            title: 'Industries',
             groups: [
                 {
-                    name: 'Researcher',
-                    isSubGroup: true,
-                    items: ['Math', 'CS', 'Finance / Eco']
-                },
-                {
-                    name: 'Targeted Industry',
-                    items: ['Legal Health', 'Retail', 'Digital Marketing']
+                    name: 'Target Markets',
+                    items: ['Legal Health', 'Retail', 'Digital Marketing', 'Financial Services', 'Education']
                 },
                 {
                     name: 'Healthcare',
                     isSubGroup: true,
-                    items: []
+                    items: ['Clinical Analytics', 'Medical Research', 'Patient Outcomes', 'Pharma & Life Sciences']
+                },
+                {
+                    name: 'Technology',
+                    items: ['SaaS & Software', 'Semiconductors', 'Telecommunications', 'Media & Entertainment']
+                }
+            ]
+        }
+    },
+    {
+        id: 'capabilities',
+        name: 'Capabilities',
+        submenu: {
+            title: 'Capabilities',
+            groups: [
+                {
+                    name: 'Research',
+                    isSubGroup: true,
+                    items: ['Math', 'CS', 'Finance / Eco']
+                },
+                {
+                    name: 'Data & Analytics',
+                    items: ['Data Engineering', 'Business Intelligence', 'Predictive Analytics']
+                },
+                {
+                    name: 'Strategy',
+                    items: ['Digital Transformation', 'Technology Consulting', 'Operations']
                 }
             ]
         }
     },
     {
         id: 'techstack',
-        name: 'Tech Stack',
+        name: 'Tech & AI',
         submenu: {
-            title: 'Tech Stack',
+            title: 'Tech & AI',
             groups: [
                 {
                     name: 'Core Technologies',
@@ -72,13 +93,13 @@ export const menuData: MenuItem[] = [
         }
     },
     {
-        id: 'capabilities',
-        name: 'Capabilities',
+        id: 'insights',
+        name: 'Our Insights',
         submenu: null
     },
     {
-        id: 'insights',
-        name: 'Our Insights',
+        id: 'careers',
+        name: 'Careers',
         submenu: null
     },
     {
@@ -88,8 +109,7 @@ export const menuData: MenuItem[] = [
     },
     {
         id: 'blog',
-        name: 'Blog',
+        name: 'Datamills Blog',
         submenu: null
     }
 ];
-
