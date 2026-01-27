@@ -1,4 +1,5 @@
 import { Navbar } from "./components/Navbar";
+import { InteractiveOrb } from "./components/InteractiveOrb";
 
 export default function Home() {
   return (
@@ -83,27 +84,9 @@ export default function Home() {
             </div>
           </div>
           
-          {/* Right side decorative element */}
-          <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-[400px] xl:w-[500px] h-[400px] xl:h-[500px]">
-            {/* Abstract tech shape */}
-            <div className="relative w-full h-full">
-              {/* Outer ring */}
-              <div className="absolute inset-0 border border-slate-700/50 rounded-full" />
-              <div className="absolute inset-8 border border-slate-700/30 rounded-full" />
-              <div className="absolute inset-16 border border-slate-700/20 rounded-full" />
-              
-              {/* Center dot */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-cyan-500 rounded-full shadow-[0_0_30px_rgba(34,211,238,0.5)]" />
-              
-              {/* Orbiting dots */}
-              <div className="absolute top-1/2 left-0 -translate-y-1/2 w-2 h-2 bg-slate-500 rounded-full" />
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-600 rounded-full" />
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-600 rounded-full" />
-              
-              {/* Connecting lines */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-slate-700/50 to-transparent" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1px] h-full bg-gradient-to-b from-transparent via-slate-700/50 to-transparent" />
-            </div>
+          {/* Right side interactive decorative element */}
+          <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-[450px] xl:w-[550px] h-[450px] xl:h-[550px]">
+            <InteractiveOrb />
           </div>
           
           {/* Scroll indicator */}
