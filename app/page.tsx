@@ -82,7 +82,7 @@ export default function Home() {
           </div>
           
           {/* Right side interactive decorative element */}
-          <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-[450px] xl:w-[550px] h-[450px] xl:h-[550px]">
+          <div className="hidden lg:block absolute right-8 xl:right-16 top-1/2 -translate-y-1/2 w-[400px] xl:w-[500px] h-[400px] xl:h-[500px]">
             <InteractiveOrb />
           </div>
           
