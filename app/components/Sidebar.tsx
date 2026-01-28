@@ -5,20 +5,40 @@ import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 import { menuData, MenuItem, AboutContent } from './menuData';
 
+// Helper function to convert item name to URL slug
+const toSlug = (name: string): string => {
+    return name
+        .toLowerCase()
+        .replace(/&/g, 'and')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+};
+
+// Get the base path for menu items
+const getBasePath = (menuId: string): string => {
+    const pathMap: Record<string, string> = {
+        'industries': '/industries',
+        'capabilities': '/capabilities',
+        'techstack': '/tech',
+        'insights': '/insights',
+        'careers': '/careers',
+    };
+    return pathMap[menuId] || '';
+};
+
 // Props interface for the Sidebar component
 interface SidebarProps {
     isOpen: boolean;
     onClose: () => void;
-    initialActiveMenu?: string | null;
 }
 
 // Sidebar Header Component
 const SidebarHeader: React.FC<{ onClose: () => void }> = ({ onClose }) => (
-    <div className="h-[72px] px-4 flex items-center border-b border-blue-900/30">
+    <div className="h-14 px-4 flex items-center border-b border-blue-900/30">
         {/* Close Button */}
         <button
             onClick={onClose}
-            className="w-10 h-10 flex items-center justify-center text-blue-100/80 hover:text-white transition-colors"
+            className="w-10 h-10 flex items-center justify-center text-white/80 hover:text-white transition-colors"
             aria-label="Close Menu"
         >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -27,11 +47,11 @@ const SidebarHeader: React.FC<{ onClose: () => void }> = ({ onClose }) => (
         </button>
         
         {/* Vertical Divider */}
-        <div className="h-8 w-px bg-blue-900/50 mx-4" />
+        <div className="h-6 w-px bg-white/30 mx-3" />
         
         {/* Logo and Brand */}
-        <Link href="/" className="flex items-center gap-3" onClick={onClose}>
-            <div className="relative h-8 w-8">
+        <Link href="/" className="flex items-center gap-2" onClick={onClose}>
+            <div className="relative h-7 w-7">
                 <Image
                     src="/logo.png"
                     alt="Logo"
@@ -39,7 +59,7 @@ const SidebarHeader: React.FC<{ onClose: () => void }> = ({ onClose }) => (
                     className="object-contain"
                 />
             </div>
-            <span className="text-lg font-semibold text-white tracking-tight">Datamills</span>
+            <span className="text-base font-semibold text-white tracking-tight">Datamills</span>
         </Link>
     </div>
 );
@@ -59,10 +79,10 @@ const MenuItemButton: React.FC<MenuItemButtonProps> = ({ menu, isActive, onClick
         <button
             onClick={onClick}
             onMouseEnter={onMouseEnter}
-            className="w-full px-6 py-4 flex items-center justify-between text-left transition-all duration-300 group hover:bg-blue-900/10"
+            className="w-full px-6 py-4 flex items-center justify-between text-left transition-all duration-200 group"
         >
             <div className="relative">
-                <span className={`text-[15px] font-semibold tracking-wide transition-colors ${isActive ? 'text-white' : 'text-blue-100/90 group-hover:text-white'}`}>
+                <span className={`text-[15px] font-medium tracking-wide transition-colors ${isActive ? 'text-white' : 'text-white/80 group-hover:text-white'}`}>
                     {menu.name}
                 </span>
                 {/* McKinsey-style underline accent */}
@@ -70,10 +90,7 @@ const MenuItemButton: React.FC<MenuItemButtonProps> = ({ menu, isActive, onClick
             </div>
             {hasExpandableContent && (
                 <svg
-                    className={`w-5 h-5 transition-all duration-300 ${isActive
-                        ? 'text-white'
-                        : 'text-blue-100/50 group-hover:text-white group-hover:translate-x-1'
-                        }`}
+                    className={`w-5 h-5 transition-all duration-200 ${isActive ? 'text-white' : 'text-white/50 group-hover:text-white'}`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -87,21 +104,21 @@ const MenuItemButton: React.FC<MenuItemButtonProps> = ({ menu, isActive, onClick
 
 // Sidebar Footer Component
 const SidebarFooter: React.FC = () => (
-    <div className="p-6 border-t border-blue-900/30 space-y-4">
+    <div className="p-6 space-y-4 mt-auto">
         {/* Sign In */}
-        <Link href="#" className="flex items-center gap-3 text-blue-100/70 hover:text-white transition-colors group">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <Link href="#" className="flex items-center gap-3 text-white/70 hover:text-white transition-colors">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
-            <span className="text-sm font-medium">Sign In</span>
+            <span className="text-sm">Sign In</span>
         </Link>
         
         {/* Email Subscriptions */}
-        <Link href="#" className="flex items-center gap-3 text-blue-100/70 hover:text-white transition-colors group">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <Link href="#" className="flex items-center gap-3 text-white/70 hover:text-white transition-colors">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
-            <span className="text-sm font-medium">Email Subscriptions</span>
+            <span className="text-sm">Email Subscriptions</span>
         </Link>
     </div>
 );
@@ -114,26 +131,31 @@ interface AboutUsPanelProps {
 
 const AboutUsPanel: React.FC<AboutUsPanelProps> = ({ aboutContent, isVisible }) => (
     <div
-        className={`w-[320px] md:w-[500px] lg:w-[700px] h-full bg-[#f8fafc] transition-all duration-500 overflow-hidden ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+        className={`flex-1 h-full bg-white transition-all duration-300 overflow-hidden ${isVisible ? 'opacity-100' : 'opacity-0'}`}
     >
         {aboutContent && (
             <div className="h-full flex flex-col">
                 {/* About Us Header */}
-                <div className="h-[80px] px-8 flex items-center border-b border-gray-200">
-                    <div className="group">
-                        <div className="flex items-center gap-3">
-                            <span className="text-2xl font-bold text-[#0a192f]">
-                                {aboutContent.title}
-                            </span>
-                        </div>
-                        {/* Underline accent */}
-                        <div className="mt-1 w-16 h-[3px] bg-cyan-500" />
-                    </div>
+                <div className="h-14 px-8 flex items-center border-b border-gray-200">
+                    <Link href="#" className="group flex items-center gap-3">
+                        <span className="text-xl font-bold text-[#0a192f] group-hover:text-blue-600 transition-colors">
+                            {aboutContent.title}
+                        </span>
+                        <svg 
+                            className="w-5 h-5 text-blue-600 transition-transform group-hover:translate-x-1" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </Link>
                 </div>
 
                 {/* About Us Content */}
                 <div className="flex-1 p-8 overflow-y-auto">
-                    <div className="max-w-2xl space-y-6">
+                    <div className="max-w-3xl space-y-6">
                         {aboutContent.paragraphs.map((paragraph, index) => (
                             <p 
                                 key={index} 
@@ -143,34 +165,20 @@ const AboutUsPanel: React.FC<AboutUsPanelProps> = ({ aboutContent, isVisible }) 
                             </p>
                         ))}
                     </div>
-                    
-                    {/* Decorative Elements */}
-                    <div className="mt-10 pt-8 border-t border-gray-200">
-                        <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
-                                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p className="text-sm font-semibold text-[#0a192f]">Powering Innovation</p>
-                                <p className="text-xs text-gray-500">Data-driven solutions for the future</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         )}
     </div>
 );
 
-// Submenu Panel Component
+// Submenu Panel Component - Full Width McKinsey Style
 interface SubmenuPanelProps {
     activeMenuData: MenuItem | undefined;
     isVisible: boolean;
+    onClose: () => void;
 }
 
-const SubmenuPanel: React.FC<SubmenuPanelProps> = ({ activeMenuData, isVisible }) => {
+const SubmenuPanel: React.FC<SubmenuPanelProps> = ({ activeMenuData, isVisible, onClose }) => {
     // Flatten all items from all groups into a single array
     const allItems = activeMenuData?.submenu?.groups.flatMap(group => group.items) || [];
     
@@ -180,44 +188,43 @@ const SubmenuPanel: React.FC<SubmenuPanelProps> = ({ activeMenuData, isVisible }
     const column2 = allItems.slice(itemsPerColumn, itemsPerColumn * 2);
     const column3 = allItems.slice(itemsPerColumn * 2);
 
+    const basePath = activeMenuData ? getBasePath(activeMenuData.id) : '';
+
     return (
         <div
-            className={`w-[320px] md:w-[500px] lg:w-[700px] h-full bg-[#f8fafc] transition-all duration-500 overflow-hidden ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+            className={`flex-1 h-full bg-white transition-all duration-300 overflow-hidden ${isVisible ? 'opacity-100' : 'opacity-0'}`}
         >
             {activeMenuData?.submenu && (
                 <div className="h-full flex flex-col">
                     {/* Submenu Header - McKinsey Style */}
-                    <div className="h-[80px] px-8 flex items-center border-b border-gray-200">
-                        <Link href="#" className="group">
-                            <div className="flex items-center gap-3">
-                                <span className="text-2xl font-bold text-[#0a192f] group-hover:text-blue-700 transition-colors">
-                                    {activeMenuData.submenu.title}
-                                </span>
-                                <svg 
-                                    className="w-6 h-6 text-blue-600 transition-transform group-hover:translate-x-1" 
-                                    fill="none" 
-                                    stroke="currentColor" 
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={2}
-                                >
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                </svg>
-                            </div>
-                            {/* Underline accent */}
-                            <div className="mt-1 w-12 h-[2px] bg-[#0a192f] group-hover:w-full transition-all duration-300" />
-                        </Link>
+                    <div className="h-14 px-8 flex items-center border-b border-gray-200">
+                        <div className="flex items-center gap-3">
+                            <span className="text-xl font-bold text-[#0a192f] underline decoration-2 underline-offset-8">
+                                {activeMenuData.submenu.title}
+                            </span>
+                            <svg 
+                                className="w-5 h-5 text-blue-600" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                viewBox="0 0 24 24"
+                                strokeWidth={2}
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </div>
                     </div>
 
                     {/* Submenu Content - McKinsey 3-column flat list */}
-                    <div className="flex-1 px-8 py-6 overflow-y-auto">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-0">
+                    <div className="flex-1 px-8 py-8 overflow-y-auto">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-16 gap-y-0">
                             {/* Column 1 */}
-                            <ul className="space-y-1">
+                            <ul className="space-y-0">
                                 {column1.map((item, index) => (
                                     <li key={index}>
                                         <Link
-                                            href="#"
-                                            className="block py-2 text-[15px] text-[#1a365d] hover:text-blue-600 transition-colors font-normal"
+                                            href={`${basePath}/${toSlug(item)}`}
+                                            onClick={onClose}
+                                            className="block py-2.5 text-[15px] text-[#1a365d] hover:text-blue-600 transition-colors"
                                         >
                                             {item}
                                         </Link>
@@ -226,12 +233,13 @@ const SubmenuPanel: React.FC<SubmenuPanelProps> = ({ activeMenuData, isVisible }
                             </ul>
                             
                             {/* Column 2 */}
-                            <ul className="space-y-1">
+                            <ul className="space-y-0">
                                 {column2.map((item, index) => (
                                     <li key={index}>
                                         <Link
-                                            href="#"
-                                            className="block py-2 text-[15px] text-[#1a365d] hover:text-blue-600 transition-colors font-normal"
+                                            href={`${basePath}/${toSlug(item)}`}
+                                            onClick={onClose}
+                                            className="block py-2.5 text-[15px] text-[#1a365d] hover:text-blue-600 transition-colors"
                                         >
                                             {item}
                                         </Link>
@@ -240,12 +248,13 @@ const SubmenuPanel: React.FC<SubmenuPanelProps> = ({ activeMenuData, isVisible }
                             </ul>
                             
                             {/* Column 3 */}
-                            <ul className="space-y-1">
+                            <ul className="space-y-0">
                                 {column3.map((item, index) => (
                                     <li key={index}>
                                         <Link
-                                            href="#"
-                                            className="block py-2 text-[15px] text-[#1a365d] hover:text-blue-600 transition-colors font-normal"
+                                            href={`${basePath}/${toSlug(item)}`}
+                                            onClick={onClose}
+                                            className="block py-2.5 text-[15px] text-[#1a365d] hover:text-blue-600 transition-colors"
                                         >
                                             {item}
                                         </Link>
@@ -260,20 +269,19 @@ const SubmenuPanel: React.FC<SubmenuPanelProps> = ({ activeMenuData, isVisible }
     );
 };
 
-// Main Sidebar Component
-export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, initialActiveMenu }) => {
+// Main Sidebar Component - Full Screen McKinsey Style
+export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
 
-    // Set initial active menu when sidebar opens with a pre-selected menu
+    // Set default menu (Industries) when sidebar opens, reset when closes
     useEffect(() => {
-        if (isOpen && initialActiveMenu) {
-            setActiveMenu(initialActiveMenu);
-        }
-    }, [isOpen, initialActiveMenu]);
-
-    // Reset active menu when sidebar closes
-    useEffect(() => {
-        if (!isOpen) {
+        if (isOpen) {
+            // Select first menu item with submenu by default
+            const firstMenuWithSubmenu = menuData.find(m => m.submenu);
+            if (firstMenuWithSubmenu) {
+                setActiveMenu(firstMenuWithSubmenu.id);
+            }
+        } else {
             setActiveMenu(null);
         }
     }, [isOpen]);
@@ -307,72 +315,62 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, initialActive
 
     return (
         <>
-            {/* Backdrop Overlay */}
+            {/* Full Screen Sidebar Container */}
             <div
-                className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] transition-opacity duration-500 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-                    }`}
-                onClick={onClose}
-            />
-
-            {/* Sidebar Container */}
-            <aside
-                className={`fixed top-0 left-0 h-full z-[95] flex transition-transform duration-500 ease-out ${isOpen ? 'translate-x-0' : '-translate-x-full'
-                    }`}
+                className={`fixed inset-0 z-[100] transition-all duration-500 ${
+                    isOpen ? 'visible opacity-100' : 'invisible opacity-0'
+                }`}
             >
-                {/* Left Panel - Main Menu */}
-                <div className="w-[280px] md:w-[340px] h-full bg-[#0a192f] border-r border-blue-900/30 flex flex-col">
-                    <SidebarHeader onClose={onClose} />
+                {/* Sidebar Content - Full Screen with Background */}
+                <aside
+                    className={`fixed inset-0 flex bg-white transition-transform duration-500 ease-out ${
+                        isOpen ? 'translate-x-0' : '-translate-x-full'
+                    }`}
+                >
+                    {/* Left Panel - Main Menu (Fixed width) */}
+                    <div className="w-[300px] md:w-[380px] h-full bg-[#0a192f] flex flex-col flex-shrink-0">
+                        <SidebarHeader onClose={onClose} />
 
-                    {/* Menu Items */}
-                    <nav className="flex-1 py-6 overflow-y-auto custom-scrollbar">
-                        <ul className="space-y-1">
-                            {menuData.map((menu) => (
-                                <li key={menu.id}>
-                                    <MenuItemButton
-                                        menu={menu}
-                                        isActive={activeMenu === menu.id}
-                                        onClick={() => (menu.submenu || menu.aboutContent) && handleMenuClick(menu.id)}
-                                        onMouseEnter={() => handleMenuHover(menu.id)}
-                                    />
-                                </li>
-                            ))}
-                        </ul>
-                    </nav>
+                        {/* Menu Items */}
+                        <nav className="flex-1 py-4 overflow-y-auto">
+                            <ul>
+                                {menuData.map((menu) => (
+                                    <li key={menu.id}>
+                                        <MenuItemButton
+                                            menu={menu}
+                                            isActive={activeMenu === menu.id}
+                                            onClick={() => (menu.submenu || menu.aboutContent) && handleMenuClick(menu.id)}
+                                            onMouseEnter={() => handleMenuHover(menu.id)}
+                                        />
+                                    </li>
+                                ))}
+                            </ul>
+                        </nav>
 
-                    <SidebarFooter />
-                </div>
+                        <SidebarFooter />
+                    </div>
 
-                {/* Right Panel - Submenu or About Us */}
-                {showAboutPanel ? (
-                    <AboutUsPanel
-                        aboutContent={activeMenuData?.aboutContent}
-                        isVisible={true}
-                    />
-                ) : (
-                    <SubmenuPanel
-                        activeMenuData={activeMenuData}
-                        isVisible={!!showSubmenuPanel}
-                    />
-                )}
-            </aside>
-
-            {/* Custom Scrollbar Styles */}
-            <style jsx global>{`
-                .custom-scrollbar::-webkit-scrollbar {
-                    width: 4px;
-                }
-                .custom-scrollbar::-webkit-scrollbar-track {
-                    background: transparent;
-                }
-                .custom-scrollbar::-webkit-scrollbar-thumb {
-                    background: rgba(100, 200, 255, 0.3);
-                    border-radius: 2px;
-                }
-                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-                    background: rgba(100, 200, 255, 0.5);
-                }
-            `}</style>
+                    {/* Right Panel - Submenu or About Us (Takes remaining width) */}
+                    {showAboutPanel ? (
+                        <AboutUsPanel
+                            aboutContent={activeMenuData?.aboutContent}
+                            isVisible={true}
+                        />
+                    ) : (
+                        <SubmenuPanel
+                            activeMenuData={activeMenuData}
+                            isVisible={!!showSubmenuPanel}
+                            onClose={onClose}
+                        />
+                    )}
+                    
+                    {/* Empty white space when no submenu */}
+                    {!showAboutPanel && !showSubmenuPanel && (
+                        <div className="flex-1 h-full bg-white" />
+                    )}
+                </aside>
+            </div>
         </>
     );
 };
-
+    

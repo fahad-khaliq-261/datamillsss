@@ -1,13 +1,10 @@
-import { Navbar } from "./components/Navbar";
 import { InteractiveOrb } from "./components/InteractiveOrb";
 
 export default function Home() {
   return (
     <>
-      <Navbar />
-      
       {/* Hero Section */}
-      <main className="min-h-screen pt-20">
+      <main className="min-h-screen pt-14">
         <section className="relative min-h-[calc(100vh-80px)] flex items-center overflow-hidden">
           {/* Subtle background */}
           <div className="absolute inset-0 bg-[#0a192f]" />

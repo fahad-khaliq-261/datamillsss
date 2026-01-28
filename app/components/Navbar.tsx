@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Sidebar } from './Sidebar';
-import { menuData } from './menuData';
+import { menuData, MenuItem } from './menuData';
 
-// Hamburger Button Component - McKinsey Style (3 horizontal lines)
+// Hamburger Button Component - McKinsey Style (3 horizontal lines) with hover
 interface HamburgerButtonProps {
     onClick: () => void;
 }
@@ -14,16 +14,16 @@ interface HamburgerButtonProps {
 const HamburgerButton: React.FC<HamburgerButtonProps> = ({ onClick }) => (
     <button
         onClick={onClick}
-        className="w-10 h-10 flex flex-col items-center justify-center gap-1.5 text-white hover:opacity-80 transition-opacity"
+        className="w-10 h-10 flex flex-col items-center justify-center gap-1.5 group"
         aria-label="Toggle Menu"
     >
-        <span className="w-6 h-[2px] bg-white" />
-        <span className="w-6 h-[2px] bg-white" />
-        <span className="w-6 h-[2px] bg-white" />
+        <span className="w-6 h-[2px] bg-white transition-all duration-200 group-hover:bg-white/70 group-hover:w-5" />
+        <span className="w-6 h-[2px] bg-white transition-all duration-200 group-hover:bg-white/70" />
+        <span className="w-6 h-[2px] bg-white transition-all duration-200 group-hover:bg-white/70 group-hover:w-5" />
     </button>
 );
 
-// Logo Component - McKinsey Style
+// Logo Component
 const Logo: React.FC = () => (
     <Link href="/" className="flex items-center">
         <div className="relative h-8 w-8 mr-2">
@@ -41,49 +41,159 @@ const Logo: React.FC = () => (
     </Link>
 );
 
-// Nav Item Component - McKinsey Style
-interface NavItemProps {
-    label: string;
-    hasDropdown: boolean;
-    onClick: () => void;
-}
-
-const NavItem: React.FC<NavItemProps> = ({ label, hasDropdown, onClick }) => (
-    <button
-        onClick={onClick}
-        className="flex items-center gap-1 px-3 py-2 text-[13px] font-medium text-white/90 hover:text-white transition-colors"
-    >
-        {label}
-        {hasDropdown && (
-            <svg 
-                className="w-3 h-3 ml-0.5" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-            >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-        )}
-    </button>
-);
-
 // Search Button Component
 const SearchButton: React.FC = () => (
     <button 
-        className="w-10 h-10 flex items-center justify-center text-white/90 hover:text-white transition-colors"
+        className="w-12 h-12 flex items-center justify-center text-white/90 hover:text-white transition-colors"
         aria-label="Search"
     >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
     </button>
 );
 
+// Helper function to convert item name to URL slug
+const toSlug = (name: string): string => {
+    return name
+        .toLowerCase()
+        .replace(/&/g, 'and')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+};
+
+// Get the base path for menu items
+const getBasePath = (menuId: string): string => {
+    const pathMap: Record<string, string> = {
+        'industries': '/industries',
+        'capabilities': '/capabilities',
+        'techstack': '/tech',
+        'insights': '/insights',
+        'careers': '/careers',
+    };
+    return pathMap[menuId] || '';
+};
+
+// Dropdown Panel Component - McKinsey Style
+interface DropdownPanelProps {
+    menu: MenuItem;
+    isVisible: boolean;
+}
+
+const DropdownPanel: React.FC<DropdownPanelProps> = ({ menu, isVisible }) => {
+    if (!menu.submenu) return null;
+    
+    // Flatten all items from all groups
+    const allItems = menu.submenu.groups.flatMap(group => group.items);
+    
+    // Split into 4 columns for McKinsey style
+    const itemsPerColumn = Math.ceil(allItems.length / 4);
+    const columns = [
+        allItems.slice(0, itemsPerColumn),
+        allItems.slice(itemsPerColumn, itemsPerColumn * 2),
+        allItems.slice(itemsPerColumn * 2, itemsPerColumn * 3),
+        allItems.slice(itemsPerColumn * 3),
+    ].filter(col => col.length > 0);
+
+    const basePath = getBasePath(menu.id);
+
+    return (
+        <div 
+            className={`absolute top-full left-0 w-full bg-white shadow-xl transition-all duration-300 ${
+                isVisible 
+                    ? 'opacity-100 visible translate-y-0' 
+                    : 'opacity-0 invisible -translate-y-2'
+            }`}
+        >
+            <div className="max-w-[1400px] mx-auto px-8 py-8">
+                {/* Panel Header */}
+                <div className="inline-flex items-center gap-2 mb-8">
+                    <span className="text-2xl font-bold text-[#0a192f] underline decoration-2 underline-offset-8">
+                        {menu.submenu.title}
+                    </span>
+                    <svg 
+                        className="w-6 h-6 text-blue-600" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                </div>
+
+                {/* Items Grid - 4 Columns */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-0">
+                    {columns.map((column, colIndex) => (
+                        <ul key={colIndex} className="space-y-1">
+                            {column.map((item, itemIndex) => (
+                                <li key={itemIndex}>
+                                    <Link
+                                        href={`${basePath}/${toSlug(item)}`}
+                                        className="block py-2 text-[15px] text-[#1a365d] hover:text-blue-600 transition-colors"
+                                    >
+                                        {item}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// Nav Item Component with Dropdown
+interface NavItemProps {
+    menu: MenuItem;
+    isActive: boolean;
+    onMouseEnter: () => void;
+    onMouseLeave: () => void;
+}
+
+const NavItem: React.FC<NavItemProps> = ({ menu, isActive, onMouseEnter, onMouseLeave }) => {
+    const hasDropdown = !!(menu.submenu || menu.aboutContent);
+    
+    return (
+        <div 
+            className="relative"
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+        >
+            <button
+                className={`flex items-center gap-1 px-3 py-4 text-[14px] font-medium transition-colors ${
+                    isActive ? 'text-white' : 'text-white/80 hover:text-white'
+                }`}
+            >
+                {menu.name}
+                {hasDropdown && (
+                    <svg 
+                        className={`w-3 h-3 ml-0.5 transition-transform ${isActive ? 'rotate-180' : ''}`}
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                )}
+            </button>
+            
+            {/* Active indicator line */}
+            <div className={`absolute bottom-0 left-3 right-3 h-[3px] bg-[#c4a052] transition-all ${
+                isActive ? 'opacity-100' : 'opacity-0'
+            }`} />
+        </div>
+    );
+};
+
 // Main Navbar Component
 export const Navbar: React.FC = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
+    const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+    const navRef = useRef<HTMLDivElement>(null);
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -93,24 +203,41 @@ export const Navbar: React.FC = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const openSidebar = () => {
-        setIsSidebarOpen(true);
+    const handleMouseEnter = (menuId: string) => {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+        const menu = menuData.find(m => m.id === menuId);
+        if (menu?.submenu) {
+            setActiveDropdown(menuId);
+        }
     };
 
-    const openSidebarWithMenu = (menuId: string) => {
-        setActiveMenuId(menuId);
-        setIsSidebarOpen(true);
+    const handleMouseLeave = () => {
+        timeoutRef.current = setTimeout(() => {
+            setActiveDropdown(null);
+        }, 150);
     };
 
-    const closeSidebar = () => {
-        setIsSidebarOpen(false);
-        setActiveMenuId(null);
+    const handleDropdownMouseEnter = () => {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
     };
+
+    const handleDropdownMouseLeave = () => {
+        timeoutRef.current = setTimeout(() => {
+            setActiveDropdown(null);
+        }, 150);
+    };
+
+    const activeMenu = menuData.find(m => m.id === activeDropdown);
 
     return (
         <>
-            {/* Main Navbar - McKinsey Style */}
+            {/* Main Navbar */}
             <nav
+                ref={navRef}
                 className={`fixed top-0 w-full z-[100] transition-all duration-300 ${
                     isScrolled
                         ? 'bg-[#0a192f]/95 backdrop-blur-md shadow-lg'
@@ -124,30 +251,25 @@ export const Navbar: React.FC = () => {
                         
                         {/* Left Section - Hamburger + Logo */}
                         <div className="flex items-center">
-                            <HamburgerButton onClick={openSidebar} />
-                            
-                            {/* Vertical Divider */}
+                            <HamburgerButton onClick={() => setIsSidebarOpen(true)} />
                             <div className="h-6 w-px bg-white/30 mx-3" />
-                            
                             <Logo />
                         </div>
 
-                        {/* Center Section - Nav Items (Hidden on mobile) */}
+                        {/* Center Section - Nav Items */}
                         <div className="hidden lg:flex items-center">
-                            {menuData.map((menu) => {
-                                const hasDropdown = !!(menu.submenu || menu.aboutContent);
-                                return (
-                                    <NavItem
-                                        key={menu.id}
-                                        label={menu.name}
-                                        hasDropdown={hasDropdown}
-                                        onClick={() => openSidebarWithMenu(menu.id)}
-                                    />
-                                );
-                            })}
+                            {menuData.map((menu) => (
+                                <NavItem
+                                    key={menu.id}
+                                    menu={menu}
+                                    isActive={activeDropdown === menu.id}
+                                    onMouseEnter={() => handleMouseEnter(menu.id)}
+                                    onMouseLeave={handleMouseLeave}
+                                />
+                            ))}
                         </div>
 
-                        {/* Right Section - Sign In, Subscribe, Search */}
+                        {/* Right Section */}
                         <div className="flex items-center gap-1">
                             <Link 
                                 href="#" 
@@ -155,27 +277,36 @@ export const Navbar: React.FC = () => {
                             >
                                 Sign In
                             </Link>
-                            
                             <span className="hidden md:block text-white/50">|</span>
-                            
                             <Link 
                                 href="#" 
                                 className="hidden md:block px-3 py-2 text-[13px] font-medium text-white/90 hover:text-white transition-colors"
                             >
                                 Subscribe
                             </Link>
-                            
                             <SearchButton />
                         </div>
                     </div>
                 </div>
+
+                {/* Dropdown Panel */}
+                {activeMenu && (
+                    <div
+                        onMouseEnter={handleDropdownMouseEnter}
+                        onMouseLeave={handleDropdownMouseLeave}
+                    >
+                        <DropdownPanel 
+                            menu={activeMenu} 
+                            isVisible={!!activeDropdown} 
+                        />
+                    </div>
+                )}
             </nav>
 
-            {/* Sidebar Component with optional pre-selected menu */}
+            {/* Sidebar for Mobile / Hamburger */}
             <Sidebar 
                 isOpen={isSidebarOpen} 
-                onClose={closeSidebar} 
-                initialActiveMenu={activeMenuId}
+                onClose={() => setIsSidebarOpen(false)} 
             />
         </>
     );

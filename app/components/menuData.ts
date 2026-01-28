@@ -33,37 +33,47 @@ export const menuData: MenuItem[] = [
                 {
                     name: 'Column 1',
                     items: [
-                        'Healthcare',
-                        'Financial Services', 
-                        'Retail & E-commerce',
+                        'Aerospace & Defense',
+                        'Agriculture',
+                        'Automotive & Assembly',
+                        'Chemicals',
+                        'Consumer Packaged Goods',
                         'Education',
-                        'Legal & Compliance',
-                        'Digital Marketing',
-                        'Energy & Utilities',
-                        'Manufacturing'
+                        'Electric Power & Natural Gas'
                     ]
                 },
                 {
                     name: 'Column 2',
                     items: [
-                        'Life Sciences',
-                        'Logistics & Supply Chain',
-                        'Real Estate',
-                        'Public Sector',
-                        'Telecommunications',
-                        'Media & Entertainment',
-                        'Automotive'
+                        'Energy and Materials',
+                        'Engineering & Construction',
+                        'Financial Services',
+                        'Healthcare',
+                        'Industrials & Electronics',
+                        'Infrastructure',
+                        'Life Sciences'
                     ]
                 },
                 {
                     name: 'Column 3',
                     items: [
-                        'Semiconductors',
-                        'SaaS & Software',
+                        'Logistics',
+                        'Metals & Mining',
+                        'Oil & Gas',
+                        'Packaging & Paper',
                         'Private Capital',
+                        'Public Sector',
+                        'Real Estate'
+                    ]
+                },
+                {
+                    name: 'Column 4',
+                    items: [
+                        'Retail',
+                        'Semiconductors',
                         'Social Sector',
-                        'Travel & Hospitality',
-                        'Agriculture'
+                        'Technology & Telecommunications',
+                        'Travel'
                     ]
                 }
             ]
