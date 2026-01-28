@@ -78,9 +78,10 @@ const getBasePath = (menuId: string): string => {
 interface DropdownPanelProps {
     menu: MenuItem;
     isVisible: boolean;
+    onClose: () => void;
 }
 
-const DropdownPanel: React.FC<DropdownPanelProps> = ({ menu, isVisible }) => {
+const DropdownPanel: React.FC<DropdownPanelProps> = ({ menu, isVisible, onClose }) => {
     if (!menu.submenu) return null;
     
     // Flatten all items from all groups
@@ -131,6 +132,7 @@ const DropdownPanel: React.FC<DropdownPanelProps> = ({ menu, isVisible }) => {
                                     <Link
                                         href={`${basePath}/${toSlug(item)}`}
                                         className="block py-2 text-[15px] text-[#1a365d] hover:text-blue-600 transition-colors"
+                                        onClick={onClose}
                                     >
                                         {item}
                                     </Link>
@@ -153,7 +155,8 @@ interface NavItemProps {
 }
 
 const NavItem: React.FC<NavItemProps> = ({ menu, isActive, onMouseEnter, onMouseLeave }) => {
-    const hasDropdown = !!(menu.submenu || menu.aboutContent);
+    // Only show dropdown arrow for items with actual submenu dropdown
+    const hasDropdown = !!menu.submenu;
     
     return (
         <div 
@@ -206,6 +209,7 @@ export const Navbar: React.FC = () => {
     const handleMouseEnter = (menuId: string) => {
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
+            timeoutRef.current = null;
         }
         const menu = menuData.find(m => m.id === menuId);
         if (menu?.submenu) {
@@ -214,21 +218,32 @@ export const Navbar: React.FC = () => {
     };
 
     const handleMouseLeave = () => {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
         timeoutRef.current = setTimeout(() => {
             setActiveDropdown(null);
-        }, 150);
+        }, 100);
     };
 
     const handleDropdownMouseEnter = () => {
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
+            timeoutRef.current = null;
         }
     };
 
     const handleDropdownMouseLeave = () => {
-        timeoutRef.current = setTimeout(() => {
-            setActiveDropdown(null);
-        }, 150);
+        // Close immediately when leaving dropdown area
+        setActiveDropdown(null);
+    };
+
+    const closeDropdown = () => {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = null;
+        }
+        setActiveDropdown(null);
     };
 
     const activeMenu = menuData.find(m => m.id === activeDropdown);
@@ -297,7 +312,8 @@ export const Navbar: React.FC = () => {
                     >
                         <DropdownPanel 
                             menu={activeMenu} 
-                            isVisible={!!activeDropdown} 
+                            isVisible={!!activeDropdown}
+                            onClose={closeDropdown}
                         />
                     </div>
                 )}

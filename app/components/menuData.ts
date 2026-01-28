@@ -33,49 +33,52 @@ export const menuData: MenuItem[] = [
                 {
                     name: 'Column 1',
                     items: [
-                        'Aerospace & Defense',
-                        'Agriculture',
-                        'Automotive & Assembly',
-                        'Chemicals',
-                        'Consumer Packaged Goods',
-                        'Education',
-                        'Electric Power & Natural Gas'
-                    ]
-                },
-                {
-                    name: 'Column 2',
-                    items: [
-                        'Energy and Materials',
-                        'Engineering & Construction',
-                        'Financial Services',
                         'Healthcare',
-                        'Industrials & Electronics',
-                        'Infrastructure',
-                        'Life Sciences'
+                        'Legal Services',
+                        'Enterprise & Retail',
+                        'Digital Marketing',
+                        'Fintech',
+                        'Real Estate',
+                        'Travel & Hospitality',
+                        'Energy & Utilities',
+                        'Education',
+                        'Energy & Utilities',
                     ]
                 },
-                {
-                    name: 'Column 3',
-                    items: [
-                        'Logistics',
-                        'Metals & Mining',
-                        'Oil & Gas',
-                        'Packaging & Paper',
-                        'Private Capital',
-                        'Public Sector',
-                        'Real Estate'
-                    ]
-                },
-                {
-                    name: 'Column 4',
-                    items: [
-                        'Retail',
-                        'Semiconductors',
-                        'Social Sector',
-                        'Technology & Telecommunications',
-                        'Travel'
-                    ]
-                }
+                // {
+                //     name: 'Column 2',
+                //     items: [
+                //         'Energy and Materials',
+                //         'Engineering & Construction',
+                //         'Financial Services',
+                //         'Healthcare',
+                //         'Industrials & Electronics',
+                //         'Infrastructure',
+                //         'Life Sciences'
+                //     ]
+                // },
+                // {
+                //     name: 'Column 3',
+                //     items: [
+                //         'Logistics',
+                //         'Metals & Mining',
+                //         'Oil & Gas',
+                //         'Packaging & Paper',
+                //         'Private Capital',
+                //         'Public Sector',
+                //         'Real Estate'
+                //     ]
+                // },
+                // {
+                //     name: 'Column 4',
+                //     items: [
+                //         'Retail',
+                //         'Semiconductors',
+                //         'Social Sector',
+                //         'Technology & Telecommunications',
+                //         'Travel'
+                //     ]
+                // }
             ]
         }
     },

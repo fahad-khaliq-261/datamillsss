@@ -1,10 +1,19 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 
 interface MousePosition {
     x: number;
     y: number;
+}
+
+interface Particle {
+    size: number;
+    duration: number;
+    delay: number;
+    startX: number;
+    startY: number;
+    color: 'cyan' | 'purple' | 'blue';
 }
 
 // 🎨 CURSOR STYLE OPTIONS - Change this value to switch cursor styles:
@@ -12,13 +21,34 @@ interface MousePosition {
 // 2 = Glowing Orb (minimal elegant)
 // 3 = Tech Scanner (futuristic HUD)
 // 0 = No custom cursor
-const CURSOR_STYLE = 1;
+const CURSOR_STYLE: number = 1;
+
+// Seeded random number generator for consistent values
+const seededRandom = (seed: number) => {
+    const x = Math.sin(seed * 9999) * 10000;
+    return x - Math.floor(x);
+};
+
+// Generate particles with deterministic values
+const generateParticles = (): Particle[] => {
+    return Array.from({ length: 20 }, (_, i) => ({
+        size: 1 + seededRandom(i * 1.1) * 3,
+        duration: 15 + seededRandom(i * 2.2) * 20,
+        delay: seededRandom(i * 3.3) * -20,
+        startX: seededRandom(i * 4.4) * 100,
+        startY: seededRandom(i * 5.5) * 100,
+        color: (i % 3 === 0 ? 'cyan' : i % 3 === 1 ? 'purple' : 'blue') as 'cyan' | 'purple' | 'blue',
+    }));
+};
 
 export const InteractiveOrb: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [mousePos, setMousePos] = useState<MousePosition>({ x: 0.5, y: 0.5 });
     const [absolutePos, setAbsolutePos] = useState({ x: 0, y: 0 });
     const [isHovered, setIsHovered] = useState(false);
+    
+    // Pre-generate particles with deterministic values to avoid hydration mismatch
+    const particles = useMemo(() => generateParticles(), []);
 
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
@@ -186,38 +216,29 @@ export const InteractiveOrb: React.FC = () => {
 
             {/* Particle field */}
             <div className="absolute inset-0 overflow-hidden">
-                {[...Array(20)].map((_, i) => {
-                    const size = 1 + Math.random() * 3;
-                    const duration = 15 + Math.random() * 20;
-                    const delay = Math.random() * -20;
-                    const startX = Math.random() * 100;
-                    const startY = Math.random() * 100;
-                    const color = i % 3 === 0 ? 'cyan' : i % 3 === 1 ? 'purple' : 'blue';
-                    
-                    return (
-                        <div
-                            key={i}
-                            className="absolute rounded-full pointer-events-none"
-                            style={{
-                                width: size,
-                                height: size,
-                                left: `${startX}%`,
-                                top: `${startY}%`,
-                                background: color === 'cyan' 
-                                    ? 'rgba(6,182,212,0.8)' 
-                                    : color === 'purple' 
-                                        ? 'rgba(139,92,246,0.6)' 
-                                        : 'rgba(59,130,246,0.5)',
-                                boxShadow: color === 'cyan' 
-                                    ? '0 0 10px rgba(6,182,212,0.8), 0 0 20px rgba(6,182,212,0.4)' 
-                                    : 'none',
-                                animation: `particleFloat ${duration}s ease-in-out infinite`,
-                                animationDelay: `${delay}s`,
-                                transform: `translate(${offsetX * (0.1 + i * 0.02)}px, ${offsetY * (0.1 + i * 0.02)}px)`,
-                            }}
-                        />
-                    );
-                })}
+                {particles.map((particle, i) => (
+                    <div
+                        key={i}
+                        className="absolute rounded-full pointer-events-none"
+                        style={{
+                            width: particle.size,
+                            height: particle.size,
+                            left: `${particle.startX}%`,
+                            top: `${particle.startY}%`,
+                            background: particle.color === 'cyan' 
+                                ? 'rgba(6,182,212,0.8)' 
+                                : particle.color === 'purple' 
+                                    ? 'rgba(139,92,246,0.6)' 
+                                    : 'rgba(59,130,246,0.5)',
+                            boxShadow: particle.color === 'cyan' 
+                                ? '0 0 10px rgba(6,182,212,0.8), 0 0 20px rgba(6,182,212,0.4)' 
+                                : 'none',
+                            animation: `particleFloat ${particle.duration}s ease-in-out infinite`,
+                            animationDelay: `${particle.delay}s`,
+                            transform: `translate(${offsetX * (0.1 + i * 0.02)}px, ${offsetY * (0.1 + i * 0.02)}px)`,
+                        }}
+                    />
+                ))}
             </div>
 
             {/* Orbital rings with nodes */}
