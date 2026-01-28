@@ -10,10 +10,16 @@ export interface Submenu {
     groups: MenuGroup[];
 }
 
+export interface AboutContent {
+    title: string;
+    paragraphs: string[];
+}
+
 export interface MenuItem {
     id: string;
     name: string;
     submenu: Submenu | null;
+    aboutContent?: AboutContent;
 }
 
 // Menu data structure
@@ -25,17 +31,40 @@ export const menuData: MenuItem[] = [
             title: 'Industries',
             groups: [
                 {
-                    name: 'Target Markets',
-                    items: ['Legal Health', 'Retail', 'Digital Marketing', 'Financial Services', 'Education']
+                    name: 'Column 1',
+                    items: [
+                        'Healthcare',
+                        'Financial Services', 
+                        'Retail & E-commerce',
+                        'Education',
+                        'Legal & Compliance',
+                        'Digital Marketing',
+                        'Energy & Utilities',
+                        'Manufacturing'
+                    ]
                 },
                 {
-                    name: 'Healthcare',
-                    isSubGroup: true,
-                    items: ['Clinical Analytics', 'Medical Research', 'Patient Outcomes', 'Pharma & Life Sciences']
+                    name: 'Column 2',
+                    items: [
+                        'Life Sciences',
+                        'Logistics & Supply Chain',
+                        'Real Estate',
+                        'Public Sector',
+                        'Telecommunications',
+                        'Media & Entertainment',
+                        'Automotive'
+                    ]
                 },
                 {
-                    name: 'Technology',
-                    items: ['SaaS & Software', 'Semiconductors', 'Telecommunications', 'Media & Entertainment']
+                    name: 'Column 3',
+                    items: [
+                        'Semiconductors',
+                        'SaaS & Software',
+                        'Private Capital',
+                        'Social Sector',
+                        'Travel & Hospitality',
+                        'Agriculture'
+                    ]
                 }
             ]
         }
@@ -47,17 +76,33 @@ export const menuData: MenuItem[] = [
             title: 'Capabilities',
             groups: [
                 {
-                    name: 'Research',
-                    isSubGroup: true,
-                    items: ['Math', 'CS', 'Finance / Eco']
+                    name: 'Column 1',
+                    items: [
+                        'Data Engineering',
+                        'Business Intelligence',
+                        'Predictive Analytics',
+                        'Machine Learning',
+                        'Natural Language Processing'
+                    ]
                 },
                 {
-                    name: 'Data & Analytics',
-                    items: ['Data Engineering', 'Business Intelligence', 'Predictive Analytics']
+                    name: 'Column 2',
+                    items: [
+                        'Computer Vision',
+                        'Research - Math',
+                        'Research - CS',
+                        'Research - Finance/Eco',
+                        'Data Governance'
+                    ]
                 },
                 {
-                    name: 'Strategy',
-                    items: ['Digital Transformation', 'Technology Consulting', 'Operations']
+                    name: 'Column 3',
+                    items: [
+                        'Digital Transformation',
+                        'Technology Consulting',
+                        'Operations Strategy',
+                        'Process Automation'
+                    ]
                 }
             ]
         }
@@ -69,25 +114,33 @@ export const menuData: MenuItem[] = [
             title: 'Tech & AI',
             groups: [
                 {
-                    name: 'Core Technologies',
-                    items: ['Cybersecurity', 'Compliance / Data Governance', 'Architecture', 'Engineering']
+                    name: 'Column 1',
+                    items: [
+                        'Cybersecurity',
+                        'Data Governance',
+                        'Cloud Architecture',
+                        'Software Engineering',
+                        'DevOps & MLOps'
+                    ]
                 },
                 {
-                    name: 'AI Gen (Agentic)',
-                    isSubGroup: true,
-                    items: ['Vision', 'Text', 'Speech']
+                    name: 'Column 2',
+                    items: [
+                        'AI Vision',
+                        'AI Text & NLP',
+                        'AI Speech',
+                        'Agentic AI',
+                        'LLM Fine-tuning'
+                    ]
                 },
                 {
-                    name: 'Integration',
-                    items: ['FastAPI / Docker']
-                },
-                {
-                    name: 'Infrastructure',
-                    items: ['DevOps', 'Cloud']
-                },
-                {
-                    name: 'Analytics',
-                    items: ['Tableau / Power BI']
+                    name: 'Column 3',
+                    items: [
+                        'FastAPI / Docker',
+                        'Cloud Infrastructure',
+                        'Tableau / Power BI',
+                        'Data Pipelines'
+                    ]
                 }
             ]
         }
@@ -95,17 +148,84 @@ export const menuData: MenuItem[] = [
     {
         id: 'insights',
         name: 'Our Insights',
-        submenu: null
+        submenu: {
+            title: 'Our Insights',
+            groups: [
+                {
+                    name: 'Column 1',
+                    items: [
+                        'Featured Insights',
+                        'Case Studies',
+                        'Industry Reports',
+                        'Research Papers'
+                    ]
+                },
+                {
+                    name: 'Column 2',
+                    items: [
+                        'Whitepapers',
+                        'Webinars',
+                        'Podcasts',
+                        'Videos'
+                    ]
+                },
+                {
+                    name: 'Column 3',
+                    items: [
+                        'News & Updates',
+                        'Expert Opinions',
+                        'Trends & Analysis'
+                    ]
+                }
+            ]
+        }
     },
     {
         id: 'careers',
         name: 'Careers',
-        submenu: null
+        submenu: {
+            title: 'Careers',
+            groups: [
+                {
+                    name: 'Column 1',
+                    items: [
+                        'Open Positions',
+                        'Internships',
+                        'Graduate Programs',
+                        'Experienced Professionals'
+                    ]
+                },
+                {
+                    name: 'Column 2',
+                    items: [
+                        'Life at Datamills',
+                        'Our Culture',
+                        'Benefits & Perks',
+                        'Learning & Development'
+                    ]
+                },
+                {
+                    name: 'Column 3',
+                    items: [
+                        'Diversity & Inclusion',
+                        'Our Locations',
+                        'FAQ'
+                    ]
+                }
+            ]
+        }
     },
     {
         id: 'about',
         name: 'About Us',
-        submenu: null
+        submenu: null,
+        aboutContent: {
+            title: 'About Data-Mills',
+            paragraphs: [
+                "In today's fast-moving world, data is your most valuable asset; but only if you know how to use it. That is where Data-Mills comes in. We are a team of data experts, AI specialists, and researchers who help organizations solve real-world problems using the power of data and AI. From helping hospitals streamline paperwork and enhancing brand reach through data-driven social media marketing to making cities safer with smart surveillance, we make data work for people.",
+                "Our mission is simple: help organizations unlock the full power of data and artificial intelligence to solve real challenges, drive innovation, and make better decisions. Whether it's automating healthcare processes, improving financial insights, or securing city-wide surveillance, Data-Mills delivers solutions that are impactful, intelligent, and built for the future."
+            ]
+        }
     },
     {
         id: 'blog',
