@@ -9,6 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^41.4.2",
+    "@ckeditor/ckeditor5-react": "^11.0.1",
+    "@supabase/supabase-js": "^2.93.3",
     "next": "16.1.5",
     "react": "19.2.3",
     "react-dom": "19.2.3"
