@@ -3,14 +3,34 @@
 // Auto-generated types for database tables
 // ============================================
 
-import { UseCaseCategory } from "./index";
-
+import { UseCaseCategory, UseCaseStatus } from "./index";
 /**
  * Database schema type for Supabase client
  */
 export interface Database {
   public: {
     Tables: {
+      contact_submissions: {
+        Row: {
+          id: string;
+          email: string;
+          query: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          email: string;
+          query: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          email?: string;
+          query?: string;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
       use_cases: {
         Row: {
           id: string;
@@ -22,6 +42,7 @@ export interface Database {
           content_html: string | null;
           date: string;
           image: string | null;
+          status: UseCaseStatus;
           created_at: string;
           updated_at: string;
         };
@@ -35,6 +56,7 @@ export interface Database {
           content_html?: string | null;
           date: string;
           image?: string | null;
+          status?: UseCaseStatus;
           created_at?: string;
           updated_at?: string;
         };
@@ -48,6 +70,7 @@ export interface Database {
           content_html?: string | null;
           date?: string;
           image?: string | null;
+          status?: UseCaseStatus;
           created_at?: string;
           updated_at?: string;
         };

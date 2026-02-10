@@ -68,3 +68,5 @@ export interface Notification {
   message: string;
 }
 
+export type UseCaseStatus = "draft" | "published" | "archived";
+
