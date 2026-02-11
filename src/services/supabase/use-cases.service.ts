@@ -3,7 +3,7 @@
 // All database operations for use cases
 // ============================================
 
-import { supabase, createServerSupabaseClient } from "./client";
+import { supabase, createServerSupabaseClient, isSupabaseConfigured } from "./client";
 import { UseCase, UseCaseFormData } from "@/types";
 
 /**
@@ -26,6 +26,11 @@ import { UseCase, UseCaseFormData } from "@/types";
 export async function getUseCasesByIndustry(
   industry: string
 ): Promise<UseCase[]> {
+  if (!isSupabaseConfigured || !supabase) {
+    console.warn("[UseCasesService] Supabase not configured, returning empty array");
+    return [];
+  }
+
   const { data, error } = await supabase
     .from("use_cases")
     .select("*")
@@ -46,6 +51,11 @@ export async function getUseCasesByIndustry(
  * @returns Use case or null if not found
  */
 export async function getUseCaseById(id: string): Promise<UseCase | null> {
+  if (!isSupabaseConfigured || !supabase) {
+    console.warn("[UseCasesService] Supabase not configured");
+    return null;
+  }
+
   const { data, error } = await supabase
     .from("use_cases")
     .select("*")
@@ -66,6 +76,11 @@ export async function getUseCaseById(id: string): Promise<UseCase | null> {
  * @returns Use case or null if not found
  */
 export async function getUseCaseBySlug(slug: string): Promise<UseCase | null> {
+  if (!isSupabaseConfigured || !supabase) {
+    console.warn("[UseCasesService] Supabase not configured");
+    return null;
+  }
+
   const { data, error } = await supabase
     .from("use_cases")
     .select("*")
@@ -86,6 +101,10 @@ export async function getUseCaseBySlug(slug: string): Promise<UseCase | null> {
  */
 export async function getUseCaseBySlugServer(slug: string): Promise<UseCase | null> {
   const serverClient = createServerSupabaseClient();
+  if (!serverClient) {
+    console.warn("[UseCasesService] Supabase not configured");
+    return null;
+  }
 
   const { data, error } = await serverClient
     .from("use_cases")
@@ -106,6 +125,10 @@ export async function getUseCaseBySlugServer(slug: string): Promise<UseCase | nu
  */
 export async function getAllUseCasesServer(): Promise<UseCase[]> {
   const serverClient = createServerSupabaseClient();
+  if (!serverClient) {
+    console.warn("[UseCasesService] Supabase not configured");
+    return [];
+  }
 
   const { data, error } = await serverClient
     .from("use_cases")
@@ -134,6 +157,10 @@ export async function createUseCase(
   industry: string,
   formData: UseCaseFormData
 ): Promise<UseCase> {
+  if (!isSupabaseConfigured || !supabase) {
+    throw new Error("Supabase is not configured. Please add environment variables.");
+  }
+
   const { data, error } = await supabase
     .from("use_cases")
     .insert({
@@ -171,6 +198,10 @@ export async function updateUseCase(
   id: string,
   formData: Partial<UseCaseFormData>
 ): Promise<UseCase> {
+  if (!isSupabaseConfigured || !supabase) {
+    throw new Error("Supabase is not configured. Please add environment variables.");
+  }
+
   const { data, error } = await supabase
     .from("use_cases")
     .update({
@@ -203,6 +234,10 @@ export async function updateUseCase(
  * @param id - Use case UUID
  */
 export async function deleteUseCase(id: string): Promise<void> {
+  if (!isSupabaseConfigured || !supabase) {
+    throw new Error("Supabase is not configured. Please add environment variables.");
+  }
+
   const { error } = await supabase.from("use_cases").delete().eq("id", id);
 
   if (error) {
@@ -222,6 +257,10 @@ export async function deleteUseCase(id: string): Promise<void> {
  */
 export async function getUseCasesServer(industry: string): Promise<UseCase[]> {
   const serverClient = createServerSupabaseClient();
+  if (!serverClient) {
+    console.warn("[UseCasesService] Supabase not configured");
+    return [];
+  }
 
   const { data, error } = await serverClient
     .from("use_cases")

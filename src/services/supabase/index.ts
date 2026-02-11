@@ -4,7 +4,7 @@
 // ============================================
 
 // Client
-export { supabase, createServerSupabaseClient } from "./client";
+export { supabase, createServerSupabaseClient, isSupabaseConfigured } from "./client";
 
 // Use Cases Service
 export {

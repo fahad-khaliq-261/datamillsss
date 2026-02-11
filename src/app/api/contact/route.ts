@@ -4,7 +4,7 @@
 // ============================================
 
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/services/supabase/client";
+import { supabase, isSupabaseConfigured } from "@/services/supabase/client";
 
 export async function POST(request: NextRequest) {
   try {
@@ -25,6 +25,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { success: false, error: "Please enter a message (at least 10 characters)" },
         { status: 400 }
+      );
+    }
+
+    // Check if Supabase is configured
+    if (!isSupabaseConfigured || !supabase) {
+      console.warn("[Contact API] Supabase not configured - skipping database save");
+      return NextResponse.json(
+        { success: false, error: "Database not configured. Please contact support." },
+        { status: 503 }
       );
     }
 
