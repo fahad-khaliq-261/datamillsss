@@ -3,6 +3,10 @@
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
+// Type assertion needed due to version mismatch between ckeditor5-react and ckeditor5-build-classic
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const Editor = ClassicEditor as any;
+
 interface RichTextEditorProps {
   value: string;
   onChange: (data: string) => void;
@@ -13,7 +17,7 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
   return (
     <div className="ckeditor-wrapper">
       <CKEditor
-        editor={ClassicEditor}
+        editor={Editor}
         data={value}
         config={{
           placeholder: placeholder || "Start typing...",
