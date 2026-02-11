@@ -4,6 +4,17 @@
 // ============================================
 
 /**
+ * Use Case Status - Workflow states
+ */
+export type UseCaseStatus = "draft" | "pending_approval" | "published";
+
+export const USE_CASE_STATUSES: UseCaseStatus[] = [
+  "draft",
+  "pending_approval",
+  "published",
+];
+
+/**
  * Use Case - Represents an article, case study, or report
  * stored in Supabase for a specific industry
  */
@@ -17,6 +28,7 @@ export interface UseCase {
   content_html: string | null;
   date: string;
   image: string | null;
+  status: UseCaseStatus;
   created_at: string;
   updated_at: string;
 }
@@ -32,6 +44,7 @@ export interface UseCaseFormData {
   content_html?: string;
   date: string;
   image?: string;
+  status?: UseCaseStatus;
 }
 
 /**
@@ -67,6 +80,4 @@ export interface Notification {
   type: "success" | "error";
   message: string;
 }
-
-export type UseCaseStatus = "draft" | "published" | "archived";
 
