@@ -1,0 +1,20 @@
+# Dependencies (will be installed fresh)
+node_modules
+
+# Build outputs
+.next
+
+# Development files
+*.md
+.git
+.gitignore
+.env*
+.vscode
+.cursor
+
+# Test files
+__tests__
+*.test.*
+*.spec.*
+coverage
+
