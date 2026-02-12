@@ -131,6 +131,7 @@ const DropdownPanel: React.FC<DropdownPanelProps> = ({ menu, isVisible, onClose 
                                 <li key={itemIndex}>
                                     <Link
                                         href={`${basePath}/${toSlug(item)}`}
+                                        prefetch={false}
                                         className="block py-2 text-[15px] text-[#1a365d] hover:text-blue-600 transition-colors"
                                         onClick={onClose}
                                     >

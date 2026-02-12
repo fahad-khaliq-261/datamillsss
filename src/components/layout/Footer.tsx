@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
 
-// Footer Link Component
+// Footer Link Component - prefetch disabled to prevent 404 errors for placeholder pages
 interface FooterLinkProps {
     href: string;
     children: React.ReactNode;
@@ -13,6 +13,7 @@ interface FooterLinkProps {
 const FooterLink: React.FC<FooterLinkProps> = ({ href, children }) => (
     <Link 
         href={href} 
+        prefetch={false}
         className="text-white/70 hover:text-white transition-colors duration-200 text-xs sm:text-sm"
     >
         {children}

@@ -159,6 +159,7 @@ const MobileSubmenu: React.FC<MobileSubmenuProps> = ({ menu, isExpanded, onClose
                         <Link
                             href={`${basePath}/${toSlug(item)}`}
                             onClick={onClose}
+                            prefetch={false}
                             className="block py-2 sm:py-2.5 px-3 sm:px-4 text-xs sm:text-sm text-white/70 hover:text-cyan-400 transition-colors"
                         >
                             {item}
@@ -304,6 +305,7 @@ const SubmenuPanel: React.FC<SubmenuPanelProps> = ({ activeMenuData, isVisible, 
                                         <Link
                                             href={`${basePath}/${toSlug(item)}`}
                                             onClick={onClose}
+                                            prefetch={false}
                                             className="block py-2.5 text-[15px] text-[#1a365d] hover:text-blue-600 transition-colors"
                                         >
                                             {item}
@@ -319,6 +321,7 @@ const SubmenuPanel: React.FC<SubmenuPanelProps> = ({ activeMenuData, isVisible, 
                                         <Link
                                             href={`${basePath}/${toSlug(item)}`}
                                             onClick={onClose}
+                                            prefetch={false}
                                             className="block py-2.5 text-[15px] text-[#1a365d] hover:text-blue-600 transition-colors"
                                         >
                                             {item}
@@ -334,6 +337,7 @@ const SubmenuPanel: React.FC<SubmenuPanelProps> = ({ activeMenuData, isVisible, 
                                         <Link
                                             href={`${basePath}/${toSlug(item)}`}
                                             onClick={onClose}
+                                            prefetch={false}
                                             className="block py-2.5 text-[15px] text-[#1a365d] hover:text-blue-600 transition-colors"
                                         >
                                             {item}
