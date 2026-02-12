@@ -93,7 +93,7 @@ const MenuItemButton: React.FC<MenuItemButtonProps> = ({ menu, isActive, onClick
             </div>
             {hasExpandableContent && (
                 <svg
-                    className={`w-4 h-4 sm:w-5 sm:h-5 transition-all duration-300 ${isActive ? 'text-white' : 'text-white/50 group-hover:text-white'} ${isMobileExpanded ? 'rotate-90' : ''} md:rotate-0`}
+                    className={`w-4 h-4 sm:w-5 sm:h-5 transition-all duration-300 ${isActive ? 'text-white' : 'text-white/50 group-hover:text-white'} ${isMobileExpanded ? 'rotate-90' : ''} lg:rotate-0`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -124,10 +124,10 @@ const SidebarFooter: React.FC = () => (
             <span className="text-xs sm:text-sm">Email Subscriptions</span>
         </Link>
         
-        {/* Contact Us - Mobile Only */}
+        {/* Contact Us - Mobile/Tablet Only */}
         <Link 
             href="/contact" 
-            className="md:hidden flex items-center justify-center gap-2 mt-4 px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-sm font-semibold rounded-lg"
+            className="lg:hidden flex items-center justify-center gap-2 mt-4 px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-sm font-semibold rounded-lg"
         >
             Contact Us
         </Link>
@@ -149,23 +149,56 @@ const MobileSubmenu: React.FC<MobileSubmenuProps> = ({ menu, isExpanded, onClose
 
     return (
         <div 
-            className={`md:hidden overflow-hidden transition-all duration-300 bg-[#071225] ${
+            className={`lg:hidden overflow-hidden transition-all duration-300 bg-[#071225] ${
                 isExpanded ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
             }`}
         >
-            <ul className="py-2 px-4">
+            <ul className="py-2 px-2 sm:px-4">
                 {allItems.map((item, index) => (
                     <li key={index}>
                         <Link
                             href={`${basePath}/${toSlug(item)}`}
                             onClick={onClose}
-                            className="block py-2.5 px-4 text-sm text-white/70 hover:text-cyan-400 transition-colors"
+                            className="block py-2 sm:py-2.5 px-3 sm:px-4 text-xs sm:text-sm text-white/70 hover:text-cyan-400 transition-colors"
                         >
                             {item}
                         </Link>
                     </li>
                 ))}
             </ul>
+        </div>
+    );
+};
+
+// Mobile About Content Component (Inline expansion for About Us on small screens)
+interface MobileAboutContentProps {
+    aboutContent: AboutContent | undefined;
+    isExpanded: boolean;
+}
+
+const MobileAboutContent: React.FC<MobileAboutContentProps> = ({ aboutContent, isExpanded }) => {
+    if (!aboutContent) return null;
+
+    return (
+        <div 
+            className={`lg:hidden overflow-hidden transition-all duration-300 bg-[#071225] ${
+                isExpanded ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
+            }`}
+        >
+            <div className="py-3 px-4 sm:px-6">
+                <p className="text-xs sm:text-sm text-white/60 leading-relaxed line-clamp-6">
+                    {aboutContent.paragraphs[0]}
+                </p>
+                <Link 
+                    href="/about" 
+                    className="inline-flex items-center gap-1 mt-3 text-xs sm:text-sm text-cyan-400 hover:text-cyan-300"
+                >
+                    Learn more
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                </Link>
+            </div>
         </div>
     );
 };
@@ -324,8 +357,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     // Set default menu (Industries) when sidebar opens on desktop, reset when closes
     useEffect(() => {
         if (isOpen) {
-            // Only auto-select on desktop (md and above)
-            if (window.innerWidth >= 768) {
+            // Only auto-select on large screens (lg and above - 1024px)
+            if (window.innerWidth >= 1024) {
                 const firstMenuWithSubmenu = menuData.find(m => m.submenu);
                 if (firstMenuWithSubmenu) {
                     setActiveMenu(firstMenuWithSubmenu.id);
@@ -352,20 +385,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     const handleMenuClick = (menuId: string) => {
         const menu = menuData.find(m => m.id === menuId);
         
-        // On mobile, toggle inline expansion
-        if (window.innerWidth < 768) {
-            if (menu?.submenu) {
+        // On mobile/tablet (below lg), toggle inline expansion
+        if (window.innerWidth < 1024) {
+            if (menu?.submenu || menu?.aboutContent) {
                 setMobileExpandedMenu(mobileExpandedMenu === menuId ? null : menuId);
             }
         } else {
-            // On desktop, use the panel view
+            // On desktop (lg+), use the panel view
             setActiveMenu(activeMenu === menuId ? null : menuId);
         }
     };
 
     const handleMenuHover = (menuId: string) => {
-        // Only use hover on desktop
-        if (window.innerWidth >= 768) {
+        // Only use hover on desktop (lg+)
+        if (window.innerWidth >= 1024) {
             const menu = menuData.find(m => m.id === menuId);
             if (menu?.submenu || menu?.aboutContent) {
                 setActiveMenu(menuId);
@@ -391,8 +424,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                         isOpen ? 'translate-x-0' : '-translate-x-full'
                     }`}
                 >
-                    {/* Left Panel - Main Menu (Full width on mobile, fixed width on desktop) */}
-                    <div className="w-full md:w-[380px] h-full bg-[#0a192f] flex flex-col flex-shrink-0">
+                    {/* Left Panel - Main Menu (Full width on mobile/tablet, fixed width on desktop) */}
+                    <div className="w-full lg:w-[380px] h-full bg-[#0a192f] flex flex-col flex-shrink-0">
                         <SidebarHeader onClose={onClose} />
 
                         {/* Menu Items */}
@@ -415,6 +448,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                                                 onClose={onClose}
                                             />
                                         )}
+                                        {/* Mobile About Content */}
+                                        {menu.aboutContent && (
+                                            <MobileAboutContent
+                                                aboutContent={menu.aboutContent}
+                                                isExpanded={mobileExpandedMenu === menu.id}
+                                            />
+                                        )}
                                     </li>
                                 ))}
                             </ul>
@@ -423,8 +463,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                         <SidebarFooter />
                     </div>
 
-                    {/* Right Panel - Submenu or About Us (Hidden on mobile, visible on md+) */}
-                    <div className="hidden md:block flex-1">
+                    {/* Right Panel - Submenu or About Us (Hidden on mobile/tablet, visible on lg+) */}
+                    <div className="hidden lg:block flex-1">
                         {showAboutPanel ? (
                             <AboutUsPanel
                                 aboutContent={activeMenuData?.aboutContent}
