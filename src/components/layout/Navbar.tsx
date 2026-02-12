@@ -26,7 +26,7 @@ const HamburgerButton: React.FC<HamburgerButtonProps> = ({ onClick }) => (
 // Logo Component
 const Logo: React.FC = () => (
     <Link href="/" className="flex items-center">
-        <div className="relative h-8 w-8 mr-2">
+        <div className="relative h-6 w-6 sm:h-8 sm:w-8 mr-1.5 sm:mr-2">
             <Image
                 src="/logo.png"
                 alt="Datamills Logo"
@@ -35,7 +35,7 @@ const Logo: React.FC = () => (
                 priority
             />
         </div>
-        <span className="text-lg font-semibold text-white tracking-tight">
+        <span className="text-sm sm:text-lg font-semibold text-white tracking-tight">
             Datamills
         </span>
     </Link>
@@ -284,11 +284,11 @@ export const Navbar: React.FC = () => {
                             ))}
                         </div>
 
-                        {/* Right Section - Contact Button */}
-                        <div className="hidden md:flex items-center">
+                        {/* Right Section - Contact Button (visible on larger screens) */}
+                        <div className="hidden sm:flex items-center">
                             <Link 
                                 href="/contact"
-                                className="ml-4 px-5 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-sm font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
+                                className="ml-2 sm:ml-4 px-3 sm:px-5 py-1.5 sm:py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-xs sm:text-sm font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
                             >
                                 Contact Us
                             </Link>

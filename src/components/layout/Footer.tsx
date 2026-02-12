@@ -13,7 +13,7 @@ interface FooterLinkProps {
 const FooterLink: React.FC<FooterLinkProps> = ({ href, children }) => (
     <Link 
         href={href} 
-        className="text-white/70 hover:text-white transition-colors duration-200 text-sm"
+        className="text-white/70 hover:text-white transition-colors duration-200 text-xs sm:text-sm"
     >
         {children}
     </Link>
@@ -32,7 +32,7 @@ const SocialIcon: React.FC<SocialIconProps> = ({ href, label, children }) => (
         target="_blank"
         rel="noopener noreferrer"
         aria-label={label}
-        className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/70 hover:bg-cyan-500 hover:text-white transition-all duration-300"
+        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/10 flex items-center justify-center text-white/70 hover:bg-cyan-500 hover:text-white transition-all duration-300"
     >
         {children}
     </a>
@@ -46,10 +46,10 @@ interface FooterColumnProps {
 
 const FooterColumn: React.FC<FooterColumnProps> = ({ title, links }) => (
     <div>
-        <h3 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">
+        <h3 className="text-white font-semibold text-xs sm:text-sm uppercase tracking-wider mb-2 sm:mb-4">
             {title}
         </h3>
-        <ul className="space-y-3">
+        <ul className="space-y-1.5 sm:space-y-3">
             {links.map((link, index) => (
                 <li key={index}>
                     <FooterLink href={link.href}>{link.label}</FooterLink>
@@ -98,12 +98,12 @@ export const Footer: React.FC = () => {
     return (
         <footer className="bg-[#0a192f] border-t border-white/10">
             {/* Main Footer Content */}
-            <div className="max-w-[1400px] mx-auto px-6 py-16">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10">
+            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-10 sm:py-16">
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-10">
                     {/* Company Info */}
-                    <div className="lg:col-span-2">
-                        <Link href="/" className="flex items-center mb-6">
-                            <div className="relative h-10 w-10 mr-3">
+                    <div className="col-span-2 sm:col-span-2 md:col-span-3 lg:col-span-2">
+                        <Link href="/" className="flex items-center mb-4 sm:mb-6">
+                            <div className="relative h-8 w-8 sm:h-10 sm:w-10 mr-2 sm:mr-3">
                                 <Image
                                     src="/logo.png"
                                     alt="Datamills Logo"
@@ -111,17 +111,17 @@ export const Footer: React.FC = () => {
                                     className="object-contain"
                                 />
                             </div>
-                            <span className="text-xl font-bold text-white tracking-tight">
+                            <span className="text-lg sm:text-xl font-bold text-white tracking-tight">
                                 Datamills
                             </span>
                         </Link>
-                        <p className="text-white/60 text-sm leading-relaxed mb-6 max-w-sm">
+                        <p className="text-white/60 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6 max-w-sm">
                             Empowering organizations to unlock the full potential of data and AI. 
                             We deliver intelligent solutions that drive innovation and transform businesses.
                         </p>
                         
                         {/* Social Icons */}
-                        <div className="flex gap-3">
+                        <div className="flex gap-2 sm:gap-3">
                             <SocialIcon href="https://linkedin.com" label="LinkedIn">
                                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
@@ -153,25 +153,25 @@ export const Footer: React.FC = () => {
                 </div>
 
                 {/* Newsletter Section */}
-                <div className="mt-16 pt-10 border-t border-white/10">
-                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                <div className="mt-10 sm:mt-16 pt-8 sm:pt-10 border-t border-white/10">
+                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 sm:gap-6">
                         <div>
-                            <h3 className="text-white font-semibold text-lg mb-2">
+                            <h3 className="text-white font-semibold text-base sm:text-lg mb-1 sm:mb-2">
                                 Stay Updated
                             </h3>
-                            <p className="text-white/60 text-sm">
+                            <p className="text-white/60 text-xs sm:text-sm">
                                 Subscribe to our newsletter for the latest insights and industry trends.
                             </p>
                         </div>
-                        <form className="flex gap-3 w-full lg:w-auto">
+                        <form className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full lg:w-auto">
                             <input 
                                 type="email" 
                                 placeholder="Enter your email"
-                                className="flex-1 lg:w-72 px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/40 text-sm focus:outline-none focus:border-cyan-500 transition-colors"
+                                className="flex-1 lg:w-72 px-3 sm:px-4 py-2.5 sm:py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/40 text-sm focus:outline-none focus:border-cyan-500 transition-colors"
                             />
                             <button 
                                 type="submit"
-                                className="px-6 py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-medium text-sm rounded-lg transition-colors whitespace-nowrap"
+                                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-medium text-sm rounded-lg transition-colors whitespace-nowrap"
                             >
                                 Subscribe
                             </button>
@@ -182,12 +182,12 @@ export const Footer: React.FC = () => {
 
             {/* Bottom Bar */}
             <div className="border-t border-white/10">
-                <div className="max-w-[1400px] mx-auto px-6 py-6">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                        <p className="text-white/50 text-sm">
+                <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-4 sm:py-6">
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 sm:gap-4">
+                        <p className="text-white/50 text-xs sm:text-sm text-center md:text-left">
                             © {currentYear} Datamills. All rights reserved.
                         </p>
-                        <div className="flex flex-wrap gap-6">
+                        <div className="flex flex-wrap justify-center md:justify-end gap-4 sm:gap-6">
                             <FooterLink href="/privacy">Privacy Policy</FooterLink>
                             <FooterLink href="/terms">Terms of Service</FooterLink>
                             <FooterLink href="/cookies">Cookie Policy</FooterLink>

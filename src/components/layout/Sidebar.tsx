@@ -34,33 +34,35 @@ interface SidebarProps {
 
 // Sidebar Header Component
 const SidebarHeader: React.FC<{ onClose: () => void }> = ({ onClose }) => (
-    <div className="h-14 px-4 flex items-center border-b border-blue-900/30">
-        {/* Close Button */}
-        <button
-            onClick={onClose}
-            className="w-10 h-10 flex items-center justify-center text-white/80 hover:text-white transition-colors"
-            aria-label="Close Menu"
-        >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-        </button>
-        
-        {/* Vertical Divider */}
-        <div className="h-6 w-px bg-white/30 mx-3" />
-        
-        {/* Logo and Brand */}
-        <Link href="/" className="flex items-center gap-2" onClick={onClose}>
-            <div className="relative h-7 w-7">
-                <Image
-                    src="/logo.png"
-                    alt="Logo"
-                    fill
-                    className="object-contain"
-                />
-            </div>
-            <span className="text-base font-semibold text-white tracking-tight">Datamills</span>
-        </Link>
+    <div className="h-14 px-3 sm:px-4 flex items-center justify-between border-b border-blue-900/30">
+        <div className="flex items-center">
+            {/* Close Button */}
+            <button
+                onClick={onClose}
+                className="w-10 h-10 flex items-center justify-center text-white/80 hover:text-white transition-colors"
+                aria-label="Close Menu"
+            >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            
+            {/* Vertical Divider */}
+            <div className="h-6 w-px bg-white/30 mx-2 sm:mx-3" />
+            
+            {/* Logo and Brand */}
+            <Link href="/" className="flex items-center gap-2" onClick={onClose}>
+                <div className="relative h-6 w-6 sm:h-7 sm:w-7">
+                    <Image
+                        src="/logo.png"
+                        alt="Logo"
+                        fill
+                        className="object-contain"
+                    />
+                </div>
+                <span className="text-sm sm:text-base font-semibold text-white tracking-tight">Datamills</span>
+            </Link>
+        </div>
     </div>
 );
 
@@ -70,19 +72,20 @@ interface MenuItemButtonProps {
     isActive: boolean;
     onClick: () => void;
     onMouseEnter: () => void;
+    isMobileExpanded?: boolean;
 }
 
-const MenuItemButton: React.FC<MenuItemButtonProps> = ({ menu, isActive, onClick, onMouseEnter }) => {
+const MenuItemButton: React.FC<MenuItemButtonProps> = ({ menu, isActive, onClick, onMouseEnter, isMobileExpanded }) => {
     const hasExpandableContent = menu.submenu || menu.aboutContent;
     
     return (
         <button
             onClick={onClick}
             onMouseEnter={onMouseEnter}
-            className="w-full px-6 py-4 flex items-center justify-between text-left transition-all duration-200 group"
+            className="w-full px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between text-left transition-all duration-200 group"
         >
             <div className="relative">
-                <span className={`text-[15px] font-medium tracking-wide transition-colors ${isActive ? 'text-white' : 'text-white/80 group-hover:text-white'}`}>
+                <span className={`text-sm sm:text-[15px] font-medium tracking-wide transition-colors ${isActive ? 'text-white' : 'text-white/80 group-hover:text-white'}`}>
                     {menu.name}
                 </span>
                 {/* McKinsey-style underline accent */}
@@ -90,7 +93,7 @@ const MenuItemButton: React.FC<MenuItemButtonProps> = ({ menu, isActive, onClick
             </div>
             {hasExpandableContent && (
                 <svg
-                    className={`w-5 h-5 transition-all duration-200 ${isActive ? 'text-white' : 'text-white/50 group-hover:text-white'}`}
+                    className={`w-4 h-4 sm:w-5 sm:h-5 transition-all duration-300 ${isActive ? 'text-white' : 'text-white/50 group-hover:text-white'} ${isMobileExpanded ? 'rotate-90' : ''} md:rotate-0`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -104,13 +107,13 @@ const MenuItemButton: React.FC<MenuItemButtonProps> = ({ menu, isActive, onClick
 
 // Sidebar Footer Component
 const SidebarFooter: React.FC = () => (
-    <div className="p-6 space-y-4 mt-auto">
+    <div className="p-4 sm:p-6 space-y-3 sm:space-y-4 mt-auto border-t border-blue-900/30">
         {/* Sign In */}
         <Link href="#" className="flex items-center gap-3 text-white/70 hover:text-white transition-colors">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
-            <span className="text-sm">Sign In</span>
+            <span className="text-xs sm:text-sm">Sign In</span>
         </Link>
         
         {/* Email Subscriptions */}
@@ -118,10 +121,54 @@ const SidebarFooter: React.FC = () => (
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
-            <span className="text-sm">Email Subscriptions</span>
+            <span className="text-xs sm:text-sm">Email Subscriptions</span>
+        </Link>
+        
+        {/* Contact Us - Mobile Only */}
+        <Link 
+            href="/contact" 
+            className="md:hidden flex items-center justify-center gap-2 mt-4 px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-sm font-semibold rounded-lg"
+        >
+            Contact Us
         </Link>
     </div>
 );
+
+// Mobile Submenu Component (Inline expansion for small screens)
+interface MobileSubmenuProps {
+    menu: MenuItem;
+    isExpanded: boolean;
+    onClose: () => void;
+}
+
+const MobileSubmenu: React.FC<MobileSubmenuProps> = ({ menu, isExpanded, onClose }) => {
+    if (!menu.submenu) return null;
+    
+    const allItems = menu.submenu.groups.flatMap(group => group.items);
+    const basePath = getBasePath(menu.id);
+
+    return (
+        <div 
+            className={`md:hidden overflow-hidden transition-all duration-300 bg-[#071225] ${
+                isExpanded ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+            }`}
+        >
+            <ul className="py-2 px-4">
+                {allItems.map((item, index) => (
+                    <li key={index}>
+                        <Link
+                            href={`${basePath}/${toSlug(item)}`}
+                            onClick={onClose}
+                            className="block py-2.5 px-4 text-sm text-white/70 hover:text-cyan-400 transition-colors"
+                        >
+                            {item}
+                        </Link>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+};
 
 // About Us Panel Component
 interface AboutUsPanelProps {
@@ -272,17 +319,21 @@ const SubmenuPanel: React.FC<SubmenuPanelProps> = ({ activeMenuData, isVisible, 
 // Main Sidebar Component - Full Screen McKinsey Style
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
+    const [mobileExpandedMenu, setMobileExpandedMenu] = useState<string | null>(null);
 
-    // Set default menu (Industries) when sidebar opens, reset when closes
+    // Set default menu (Industries) when sidebar opens on desktop, reset when closes
     useEffect(() => {
         if (isOpen) {
-            // Select first menu item with submenu by default
-            const firstMenuWithSubmenu = menuData.find(m => m.submenu);
-            if (firstMenuWithSubmenu) {
-                setActiveMenu(firstMenuWithSubmenu.id);
+            // Only auto-select on desktop (md and above)
+            if (window.innerWidth >= 768) {
+                const firstMenuWithSubmenu = menuData.find(m => m.submenu);
+                if (firstMenuWithSubmenu) {
+                    setActiveMenu(firstMenuWithSubmenu.id);
+                }
             }
         } else {
             setActiveMenu(null);
+            setMobileExpandedMenu(null);
         }
     }, [isOpen]);
 
@@ -299,13 +350,26 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     }, [isOpen]);
 
     const handleMenuClick = (menuId: string) => {
-        setActiveMenu(activeMenu === menuId ? null : menuId);
+        const menu = menuData.find(m => m.id === menuId);
+        
+        // On mobile, toggle inline expansion
+        if (window.innerWidth < 768) {
+            if (menu?.submenu) {
+                setMobileExpandedMenu(mobileExpandedMenu === menuId ? null : menuId);
+            }
+        } else {
+            // On desktop, use the panel view
+            setActiveMenu(activeMenu === menuId ? null : menuId);
+        }
     };
 
     const handleMenuHover = (menuId: string) => {
-        const menu = menuData.find(m => m.id === menuId);
-        if (menu?.submenu || menu?.aboutContent) {
-            setActiveMenu(menuId);
+        // Only use hover on desktop
+        if (window.innerWidth >= 768) {
+            const menu = menuData.find(m => m.id === menuId);
+            if (menu?.submenu || menu?.aboutContent) {
+                setActiveMenu(menuId);
+            }
         }
     };
 
@@ -327,21 +391,30 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                         isOpen ? 'translate-x-0' : '-translate-x-full'
                     }`}
                 >
-                    {/* Left Panel - Main Menu (Fixed width) */}
-                    <div className="w-[300px] md:w-[380px] h-full bg-[#0a192f] flex flex-col flex-shrink-0">
+                    {/* Left Panel - Main Menu (Full width on mobile, fixed width on desktop) */}
+                    <div className="w-full md:w-[380px] h-full bg-[#0a192f] flex flex-col flex-shrink-0">
                         <SidebarHeader onClose={onClose} />
 
                         {/* Menu Items */}
-                        <nav className="flex-1 py-4 overflow-y-auto">
+                        <nav className="flex-1 py-2 sm:py-4 overflow-y-auto">
                             <ul>
                                 {menuData.map((menu) => (
                                     <li key={menu.id}>
                                         <MenuItemButton
                                             menu={menu}
                                             isActive={activeMenu === menu.id}
+                                            isMobileExpanded={mobileExpandedMenu === menu.id}
                                             onClick={() => (menu.submenu || menu.aboutContent) && handleMenuClick(menu.id)}
                                             onMouseEnter={() => handleMenuHover(menu.id)}
                                         />
+                                        {/* Mobile Inline Submenu */}
+                                        {menu.submenu && (
+                                            <MobileSubmenu
+                                                menu={menu}
+                                                isExpanded={mobileExpandedMenu === menu.id}
+                                                onClose={onClose}
+                                            />
+                                        )}
                                     </li>
                                 ))}
                             </ul>
@@ -350,24 +423,26 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                         <SidebarFooter />
                     </div>
 
-                    {/* Right Panel - Submenu or About Us (Takes remaining width) */}
-                    {showAboutPanel ? (
-                        <AboutUsPanel
-                            aboutContent={activeMenuData?.aboutContent}
-                            isVisible={true}
-                        />
-                    ) : (
-                        <SubmenuPanel
-                            activeMenuData={activeMenuData}
-                            isVisible={!!showSubmenuPanel}
-                            onClose={onClose}
-                        />
-                    )}
-                    
-                    {/* Empty white space when no submenu */}
-                    {!showAboutPanel && !showSubmenuPanel && (
-                        <div className="flex-1 h-full bg-white" />
-                    )}
+                    {/* Right Panel - Submenu or About Us (Hidden on mobile, visible on md+) */}
+                    <div className="hidden md:block flex-1">
+                        {showAboutPanel ? (
+                            <AboutUsPanel
+                                aboutContent={activeMenuData?.aboutContent}
+                                isVisible={true}
+                            />
+                        ) : (
+                            <SubmenuPanel
+                                activeMenuData={activeMenuData}
+                                isVisible={!!showSubmenuPanel}
+                                onClose={onClose}
+                            />
+                        )}
+                        
+                        {/* Empty white space when no submenu */}
+                        {!showAboutPanel && !showSubmenuPanel && (
+                            <div className="h-full bg-white" />
+                        )}
+                    </div>
                 </aside>
             </div>
         </>
