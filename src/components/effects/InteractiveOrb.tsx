@@ -29,12 +29,12 @@ const seededRandom = (seed: number) => {
     return x - Math.floor(x);
 };
 
-// Generate particles with deterministic values
+// Generate particles with deterministic values - REDUCED for performance
 const generateParticles = (): Particle[] => {
-    return Array.from({ length: 20 }, (_, i) => ({
+    return Array.from({ length: 8 }, (_, i) => ({
         size: 1 + seededRandom(i * 1.1) * 3,
-        duration: 15 + seededRandom(i * 2.2) * 20,
-        delay: seededRandom(i * 3.3) * -20,
+        duration: 20 + seededRandom(i * 2.2) * 15,
+        delay: seededRandom(i * 3.3) * -10,
         startX: seededRandom(i * 4.4) * 100,
         startY: seededRandom(i * 5.5) * 100,
         color: (i % 3 === 0 ? 'cyan' : i % 3 === 1 ? 'purple' : 'blue') as 'cyan' | 'purple' | 'blue',
@@ -189,29 +189,23 @@ export const InteractiveOrb: React.FC = () => {
                 />
             </div>
 
-            {/* Outer DNA helix rings */}
+            {/* Outer ring - SIMPLIFIED for performance */}
             <div 
                 className="absolute inset-0 transition-transform duration-1000"
                 style={{ transform: `translate(${offsetX * 0.15}px, ${offsetY * 0.15}px)` }}
             >
-                {[0, 1, 2].map((i) => (
+                <div 
+                    className="absolute inset-0"
+                    style={{ animation: `spin3D 50s linear infinite` }}
+                >
                     <div 
-                        key={i}
-                        className="absolute inset-0"
+                        className="absolute inset-8 rounded-full"
                         style={{
-                            animation: `spin3D ${40 + i * 10}s linear infinite${i % 2 ? ' reverse' : ''}`,
-                            animationDelay: `${i * -5}s`
+                            border: `1px solid rgba(6,182,212,0.15)`,
+                            transform: `rotateX(60deg)`,
                         }}
-                    >
-                        <div 
-                            className="absolute inset-8 rounded-full"
-                            style={{
-                                border: `1px solid rgba(${i === 0 ? '6,182,212' : i === 1 ? '139,92,246' : '59,130,246'},${0.15 - i * 0.03})`,
-                                transform: `rotateX(${60 + i * 10}deg) rotateY(${i * 20}deg)`,
-                            }}
-                        />
-                    </div>
-                ))}
+                    />
+                </div>
             </div>
 
             {/* Particle field */}
@@ -241,11 +235,10 @@ export const InteractiveOrb: React.FC = () => {
                 ))}
             </div>
 
-            {/* Orbital rings with nodes */}
+            {/* Orbital rings with nodes - SIMPLIFIED for performance */}
             {[
-                { inset: 12, duration: 25, particles: 8, color: 'cyan', size: 2.5 },
-                { inset: 20, duration: 35, particles: 6, color: 'purple', size: 2, reverse: true },
-                { inset: 28, duration: 20, particles: 4, color: 'blue', size: 3 },
+                { inset: 15, duration: 30, particles: 4, color: 'cyan', size: 2.5 },
+                { inset: 25, duration: 40, particles: 3, color: 'purple', size: 2, reverse: true },
             ].map((ring, ringIndex) => (
                 <div 
                     key={ringIndex}
@@ -300,24 +293,20 @@ export const InteractiveOrb: React.FC = () => {
                 </div>
             ))}
 
-            {/* Energy waves */}
+            {/* Energy wave - SIMPLIFIED */}
             <div 
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                 style={{ transform: `translate(calc(-50% + ${offsetX * 0.5}px), calc(-50% + ${offsetY * 0.5}px))` }}
             >
-                {[0, 1, 2].map((i) => (
-                    <div
-                        key={i}
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
-                        style={{
-                            width: 80 + i * 40,
-                            height: 80 + i * 40,
-                            border: `1px solid rgba(6,182,212,${0.3 - i * 0.08})`,
-                            animation: `pulseWave ${3 + i}s ease-out infinite`,
-                            animationDelay: `${i * 0.5}s`,
-                        }}
-                    />
-                ))}
+                <div
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+                    style={{
+                        width: 100,
+                        height: 100,
+                        border: `1px solid rgba(6,182,212,0.25)`,
+                        animation: `pulseWave 4s ease-out infinite`,
+                    }}
+                />
             </div>
 
             {/* Central core */}

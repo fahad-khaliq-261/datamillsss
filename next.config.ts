@@ -10,6 +10,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Performance optimizations
+  compiler: {
+    // Remove console.log in production
+    removeConsole: process.env.NODE_ENV === "production",
+  },
+  // Optimize package imports
+  experimental: {
+    optimizePackageImports: ["@supabase/supabase-js"],
+  },
 };
 
 export default nextConfig;
