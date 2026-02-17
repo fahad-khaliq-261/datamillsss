@@ -315,6 +315,58 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
               <p className="text-slate-400 text-lg">Content coming soon...</p>
             </div>
           )}
+
+          {/* PDF Download Section */}
+          {useCase.pdf_url && (
+            <div className="mt-16 pt-12 border-t border-slate-700/50">
+              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-800/90 via-slate-800/70 to-slate-900/90 border border-slate-700/50">
+                {/* Background Effects */}
+                <div className="absolute inset-0 opacity-30">
+                  <div className="absolute -top-20 -right-20 w-60 h-60 bg-cyan-500/20 rounded-full blur-3xl" />
+                  <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-red-500/10 rounded-full blur-3xl" />
+                </div>
+                
+                <div className="relative p-8 md:p-10">
+                  <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-10">
+                    {/* PDF Icon */}
+                    <div className="flex-shrink-0">
+                      <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-gradient-to-br from-red-500/20 to-red-600/10 border border-red-500/30 flex items-center justify-center shadow-lg shadow-red-500/10">
+                        <svg className="w-10 h-10 md:w-12 md:h-12 text-red-400" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 2l5 5h-5V4zM8.5 13h1.25L11 15.5 12.25 13h1.25l-1.875 3L13.5 19h-1.25L11 16.5 9.75 19H8.5l1.875-3L8.5 13z"/>
+                        </svg>
+                      </div>
+                    </div>
+                    
+                    {/* Content */}
+                    <div className="flex-1 text-center lg:text-left">
+                      <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
+                        Download Complete Case Study
+                      </h3>
+                      <p className="text-slate-400 text-sm md:text-base max-w-lg">
+                        Get the full case study document with detailed methodology, data analysis, implementation steps, and comprehensive results.
+                      </p>
+                    </div>
+                    
+                    {/* Download Button */}
+                    <div className="flex-shrink-0">
+                      <a
+                        href={useCase.pdf_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        download
+                        className="group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 text-white font-semibold rounded-xl shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all duration-300 transform hover:-translate-y-1"
+                      >
+                        <svg className="w-5 h-5 transition-transform group-hover:translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Download PDF
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 

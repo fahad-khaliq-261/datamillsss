@@ -42,6 +42,7 @@ export interface Database {
           content_html: string | null;
           date: string;
           image: string | null;
+          pdf_url: string | null;
           status: UseCaseStatus;
           created_at: string;
           updated_at: string;
@@ -56,6 +57,7 @@ export interface Database {
           content_html?: string | null;
           date: string;
           image?: string | null;
+          pdf_url?: string | null;
           status?: UseCaseStatus;
           created_at?: string;
           updated_at?: string;
@@ -70,6 +72,7 @@ export interface Database {
           content_html?: string | null;
           date?: string;
           image?: string | null;
+          pdf_url?: string | null;
           status?: UseCaseStatus;
           created_at?: string;
           updated_at?: string;

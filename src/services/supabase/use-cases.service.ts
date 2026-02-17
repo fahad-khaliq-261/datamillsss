@@ -172,6 +172,7 @@ export async function createUseCase(
       content_html: formData.content_html || null,
       date: formData.date,
       image: formData.image || null,
+      pdf_url: formData.pdf_url || null,
     })
     .select()
     .single();
@@ -212,6 +213,7 @@ export async function updateUseCase(
       content_html: formData.content_html || null,
       date: formData.date,
       image: formData.image || null,
+      pdf_url: formData.pdf_url || null,
     })
     .eq("id", id)
     .select()

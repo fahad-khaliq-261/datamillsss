@@ -152,33 +152,7 @@ export const Footer: React.FC = () => {
                     <FooterColumn title="Company" links={footerData.company} />
                     <FooterColumn title="Resources" links={footerData.resources} />
                 </div>
-
-                {/* Newsletter Section */}
-                <div className="mt-10 sm:mt-16 pt-8 sm:pt-10 border-t border-white/10">
-                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 sm:gap-6">
-                        <div>
-                            <h3 className="text-white font-semibold text-base sm:text-lg mb-1 sm:mb-2">
-                                Stay Updated
-                            </h3>
-                            <p className="text-white/60 text-xs sm:text-sm">
-                                Subscribe to our newsletter for the latest insights and industry trends.
-                            </p>
-                        </div>
-                        <form className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full lg:w-auto">
-                            <input 
-                                type="email" 
-                                placeholder="Enter your email"
-                                className="flex-1 lg:w-72 px-3 sm:px-4 py-2.5 sm:py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/40 text-sm focus:outline-none focus:border-cyan-500 transition-colors"
-                            />
-                            <button 
-                                type="submit"
-                                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-medium text-sm rounded-lg transition-colors whitespace-nowrap"
-                            >
-                                Subscribe
-                            </button>
-                        </form>
-                    </div>
-                </div>
+                
             </div>
 
             {/* Bottom Bar */}

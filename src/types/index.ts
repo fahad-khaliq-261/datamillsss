@@ -28,6 +28,7 @@ export interface UseCase {
   content_html: string | null;
   date: string;
   image: string | null;
+  pdf_url: string | null;
   status: UseCaseStatus;
   created_at: string;
   updated_at: string;
@@ -44,6 +45,7 @@ export interface UseCaseFormData {
   content_html?: string;
   date: string;
   image?: string;
+  pdf_url?: string;
   status?: UseCaseStatus;
 }
 
